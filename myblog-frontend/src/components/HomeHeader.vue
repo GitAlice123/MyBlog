@@ -71,6 +71,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影，提升视觉效果 */
     /* 字体：src/assets/AaDongQiChangYueYangLouJi-2.ttf */
     font-family: 'AaDongQiChangYueYangLouJi', sans-serif;
+    font-size: 30px;
   }
   .left {
     cursor: pointer; /* 显示鼠标悬停时的手势 */
