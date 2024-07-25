@@ -102,6 +102,15 @@ export default {
 
 <style scoped>
 .diary-menu-view {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding-top: 0px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.2); /* 设置透明度为 50% 的白色背景 */
+}
+
+.diary-menu-view {
     display: flex;
     flex-direction: column;
 }
@@ -123,10 +132,13 @@ export default {
     padding: 10px;
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.5);
-
-
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    min-height: 300px; /* 根据需要调整固定最小高度 */
+    height: 300px; /* 根据需要调整固定最小高度 */
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
 }
 
 .diary-column:hover {
@@ -135,7 +147,7 @@ export default {
 }
 
 .diary-title-img {
-    width: 300px; /* 固定宽度 */
+    width: 320px; /* 固定宽度 */
     height: 200px; /* 固定高度 */
     margin-bottom: 10px;
 }

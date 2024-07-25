@@ -14,6 +14,8 @@ import '@kangc/v-md-editor/lib/style/preview.css';
 import githubTheme from '@kangc/v-md-editor/lib/theme/github';
 import '@kangc/v-md-editor/lib/theme/style/github.css';
 import hljs from 'highlight.js';
+// import 'highlight.js/styles/stackoverflow-light.css'
+// import hljsVuePlugin from "@highlightjs/vue-plugin";
 
 
 //预览的主题
@@ -29,7 +31,7 @@ const app = createApp(App)
 //注册
 app.use(VMdPreview);
 app.use(VueMarkdownEditor);
-
+// app.use(hljsVuePlugin)
 
 app.use(ElementPlus)
 app.use(router)

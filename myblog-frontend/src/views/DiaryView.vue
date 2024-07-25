@@ -153,6 +153,11 @@
     /* 与header其他元素保持一定间距 */
   }
 
+  html, body {
+  margin: 0;
+  padding: 0;
+}
+
   .background-image {
   display: block; /* 设置为块级元素 */
   position: fixed; /* 固定位置，不随滚动条滚动 */
