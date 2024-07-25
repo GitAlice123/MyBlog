@@ -2,3 +2,6 @@ myblog-backend/.idea
 myblog-backend/target
 myblog-backend/.mvn
 
+myblog-frontend/node_modules
+
+.gitignore
