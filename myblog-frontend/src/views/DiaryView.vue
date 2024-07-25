@@ -1,5 +1,6 @@
 <template>
     <div class="diary-view">
+      <img class="background-image" src="../assets/bg3.jpg" alt="Background">
       <el-container>
         <el-header>
           <BlogHeader />
@@ -151,4 +152,17 @@
     margin: 10px;
     /* 与header其他元素保持一定间距 */
   }
+
+  .background-image {
+  display: block; /* 设置为块级元素 */
+  position: fixed; /* 固定位置，不随滚动条滚动 */
+  top: 0;
+  left: 0;
+  width: 100%; /* 覆盖整个视口宽度 */
+  height: 100%; /* 覆盖整个视口高度 */
+  object-fit: cover; /* 确保图片覆盖整个元素 */
+  z-index: -1; /* 确保图片在所有内容之下 */
+  /* 透明度 */
+  opacity: 0.5;
+}
   </style>

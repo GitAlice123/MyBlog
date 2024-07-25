@@ -62,7 +62,7 @@
     padding: 10px;
     /* background-color: #57535D; */
     /* 透明度：50% */
-    background-color: rgba(87, 83, 93, 0);
+    background-color: rgba(0, 0, 0, 0);
     position: fixed; /* 固定定位 */
     top: 0; /* 顶部 */
     left: 0;
