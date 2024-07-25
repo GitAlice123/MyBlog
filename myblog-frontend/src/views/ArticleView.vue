@@ -1,17 +1,17 @@
 <template>
   <div class="article-view">
+    <img class="background-image" src="../assets/bg3.jpg" alt="Background">
     <el-container>
       <el-header>
         <BlogHeader />
       </el-header>
 
       <el-main>
-        <!-- 添加一个条件渲染的按钮，仅当用户登录时显示 -->
-        <el-button v-if="isLoggedIn" type="primary" class="edit-article-button"
-          @click="goToEditArticle">编辑文章</el-button>
-        <!-- 删除文章按钮，仅当用户登录时显示 -->
+        <!-- 条件渲染的编辑和删除按钮 -->
+        <el-button v-if="isLoggedIn" type="primary" class="edit-article-button" @click="goToEditArticle">编辑文章</el-button>
         <el-button v-if="isLoggedIn" type="danger" class="delete-article-button" @click="deleteArticle">删除文章</el-button>
         <h1 v-if="title">{{ title }}</h1>
+        <!-- 使用v-html渲染编译后的Markdown内容 -->
         <div v-if="articleContent" v-html="compiledMarkdown"></div>
         <p v-else>Loading article...</p>
       </el-main>
@@ -25,11 +25,12 @@
 
 <script>
 import axios from 'axios';
-// import MarkdownIt from 'markdown-it';
 import BlogHeader from '../components/BlogHeader.vue';
 import BlogFooter from '../components/BlogFooter.vue';
-import { mapState } from 'vuex'; // 确保引入了mapState
-import { marked } from 'marked'
+import { mapState } from 'vuex';
+import { marked } from 'marked';
+import 'highlight.js/styles/github.css'; // 引入highlight.js的样式
+import hljs from 'highlight.js';
 
 export default {
   name: 'ArticleView',
@@ -39,38 +40,24 @@ export default {
   },
   data() {
     return {
-      articleId: this.$route.params.idarticle, // 初始化articleId
+      articleId: this.$route.params.idarticle,
       title: '',
       articleContent: ''
     };
   },
   computed: {
-    // 使用marked编译markdown文本
     compiledMarkdown() {
-      const render = new marked.Renderer()
-
-      marked.setOptions({
-        renderer: render, // 这是必填项
-        gfm: true, // 启动类似于Github样式的Markdown语法
-        pedantic: false, // 只解析符合Markdwon定义的，不修正Markdown的错误
-        sanitize: true // 原始输出，忽略HTML标签（关闭后，可直接渲染HTML标签）
-      })
-
-      return marked(this.articleContent)
+      return marked(this.articleContent, {
+        highlight: (code, lang) => {
+          // 如果有语言标识，则尝试高亮，否则使用plaintext
+          return lang ? hljs.highlight(code, { language: lang }).value : code;
+        }
+      });
     },
-    // 从Vuex映射isLoggedIn状态
     ...mapState(['isLoggedIn'])
   },
   mounted() {
     this.fetchArticleContent();
-  },
-  watch: {
-    // 监听路由变化，重新加载文章内容
-    '$route'(to, from) {
-      if (to.params.idarticle !== from.params.idarticle) {
-        this.fetchArticleContent();
-      }
-    }
   },
   methods: {
     fetchArticleContent() {
@@ -80,10 +67,7 @@ export default {
             const articleData = response.data.data;
             if (articleData) {
               this.title = articleData.title;
-              this.articleContent = articleData.articleContent;
-              this.articleContent = this.articleContent.replace(/\\n/g, '\n');
-            } else {
-              console.error('No article data found in response:', response);
+              this.articleContent = articleData.articleContent.replace(/\\n/g, '\n');
             }
           } else {
             console.error('Failed to fetch article content, code is not 1:', response);
@@ -100,21 +84,17 @@ export default {
         this.$message.error('您需要登录才能编辑文章！');
       }
     },
-    // 删除文章的方法
     deleteArticle() {
       if (this.isLoggedIn) {
-        // 确认删除的逻辑
         this.$confirm('此操作将永久删除文章, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          // 发送请求到后端删除文章
           axios.get(`http://localhost:8080/deleteArticle?idarticle=${this.articleId}`)
             .then(() => {
-              // 删除成功后，返回目录页面
               this.$message.success('文章删除成功');
-              this.$router.push('/techArticleMenu'); // 确保'ArticleList'是目录页面的路由名称
+              this.$router.push('/techArticleMenu');
             })
             .catch(error => {
               console.error('Error deleting article:', error);
@@ -126,12 +106,29 @@ export default {
       } else {
         this.$message.error('请先登录');
       }
-    },
+    }
   }
 };
 </script>
 
 <style scoped>
+.article-view {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding-top: 0px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.2);
+  /* 设置透明度为 50% 的白色背景 */
+}
+
+/* 确保布局容器不超出视口 */
+.el-container {
+  position: relative;
+  z-index: 2;
+  /* 确保容器内容在背景图片和半透明背景之上 */
+}
+
 /* 添加一些样式来定位编辑按钮 */
 .edit-article-button {
   float: right;
@@ -147,5 +144,30 @@ export default {
   /* 按钮靠右显示 */
   margin: 10px;
   /* 与header其他元素保持一定间距 */
+}
+
+.background-image {
+  display: block;
+  /* 设置为块级元素 */
+  position: fixed;
+  /* 固定位置，不随滚动条滚动 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* 覆盖整个视口宽度 */
+  height: 100%;
+  /* 覆盖整个视口高度 */
+  object-fit: cover;
+  /* 确保图片覆盖整个元素 */
+  z-index: -1;
+  /* 确保图片在所有内容之下 */
+  /* 透明度 */
+  opacity: 0.5;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 </style>

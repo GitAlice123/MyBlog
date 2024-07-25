@@ -63,6 +63,11 @@ export default {
   z-index: -1; /* 确保图片在所有内容之下 */
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 .el-container {
   position: relative;
   z-index: 2; /* 确保容器内容在背景图片和半透明背景之上 */

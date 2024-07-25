@@ -4,10 +4,15 @@
       <p>每日签名：随心签</p>
     </div>
     <div class="right">
+      <!-- 直接展示邮箱地址，不用超链接 -->
+      <span>
+        2822983966@qq.com
+      </span>
       <a href="https://github.com/GitAlice123" target="_blank" rel="noopener noreferrer">
-        <img class="github-icon" src="../assets/github_PNG40.png" alt="GitHub">
+        <img class="github-icon" src="../assets/github.jpg" alt="GitHub">
       </a>
-      <a href="mailto:youremail@example.com">邮箱</a>
+
+
     </div>
   </footer>
 </template>

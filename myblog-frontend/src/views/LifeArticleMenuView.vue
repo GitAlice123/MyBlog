@@ -1,5 +1,6 @@
 <template>
     <div class="diary-menu-view">
+        <img class="background-image" src="../assets/forest.jpg" alt="Background">
         <el-container>
             <el-header>
                 <BlogHeader />
@@ -101,6 +102,15 @@ export default {
 
 <style scoped>
 .diary-menu-view {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding-top: 0px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.2); /* 设置透明度为 50% 的白色背景 */
+}
+
+.diary-menu-view {
     display: flex;
     flex-direction: column;
 }
@@ -121,9 +131,14 @@ export default {
     cursor: pointer;
     padding: 10px;
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.5);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    min-height: 300px; /* 根据需要调整固定最小高度 */
+    height: 300px; /* 根据需要调整固定最小高度 */
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
 }
 
 .diary-column:hover {
@@ -132,7 +147,7 @@ export default {
 }
 
 .diary-title-img {
-    width: 300px; /* 固定宽度 */
+    width: 320px; /* 固定宽度 */
     height: 200px; /* 固定高度 */
     margin-bottom: 10px;
 }
@@ -147,6 +162,17 @@ export default {
 .create-diary-button {
     margin: 20px 0;
     float: right;
+}
+
+.background-image {
+  display: block; /* 设置为块级元素 */
+  position: fixed; /* 固定位置，不随滚动条滚动 */
+  top: 0;
+  left: 0;
+  width: 100%; /* 覆盖整个视口宽度 */
+  height: 100%; /* 覆盖整个视口高度 */
+  object-fit: cover; /* 确保图片覆盖整个元素 */
+  z-index: -1; /* 确保图片在所有内容之下 */
 }
 
 /* 其他样式保持不变 */
