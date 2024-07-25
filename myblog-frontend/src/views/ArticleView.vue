@@ -3,7 +3,6 @@
     <el-container>
       <el-header>
         <BlogHeader />
-
       </el-header>
 
       <el-main>
@@ -15,8 +14,6 @@
         <h1 v-if="title">{{ title }}</h1>
         <div v-if="articleContent" v-html="compiledMarkdown"></div>
         <p v-else>Loading article...</p>
-
-
       </el-main>
 
       <el-footer class="fixed-footer">
@@ -28,10 +25,11 @@
 
 <script>
 import axios from 'axios';
-import MarkdownIt from 'markdown-it';
+// import MarkdownIt from 'markdown-it';
 import BlogHeader from '../components/BlogHeader.vue';
 import BlogFooter from '../components/BlogFooter.vue';
 import { mapState } from 'vuex'; // 确保引入了mapState
+import { marked } from 'marked'
 
 export default {
   name: 'ArticleView',
@@ -47,19 +45,18 @@ export default {
     };
   },
   computed: {
-    // 使用markdown-it编译markdown文本
+    // 使用marked编译markdown文本
     compiledMarkdown() {
-      const md = new MarkdownIt({
-        html: true,
-        xhtmlOut: false,
-        breaks: true,
-        langPrefix: 'language-',
-        linkify: false,
-        typographer: true,
-        quotes: '“”‘’',
-        highlight: function (/*str, lang*/) { return ''; }
-      });
-      return md.render(this.articleContent);
+      const render = new marked.Renderer()
+
+      marked.setOptions({
+        renderer: render, // 这是必填项
+        gfm: true, // 启动类似于Github样式的Markdown语法
+        pedantic: false, // 只解析符合Markdwon定义的，不修正Markdown的错误
+        sanitize: true // 原始输出，忽略HTML标签（关闭后，可直接渲染HTML标签）
+      })
+
+      return marked(this.articleContent)
     },
     // 从Vuex映射isLoggedIn状态
     ...mapState(['isLoggedIn'])

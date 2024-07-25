@@ -1,11 +1,12 @@
 <template>
   <div class="home">
-    <img class="background-image" src="../assets/bg.jpg" alt="Background">
+    <img class="background-image" src="../assets/forest.jpg" alt="Background">
     <el-container>
       <el-header>
         <HomeHeader />
       </el-header>
       <el-main>
+        <StarBackground />
       </el-main>
       <el-footer class="fixed-footer">
         <HomeFooter />
@@ -17,8 +18,7 @@
 
 <script>
 import HomeHeader from '../components/HomeHeader.vue'
-
-// import ArticleList from '../components/ArticleList.vue'
+import StarBackground from '@/components/StarBackground.vue'; 
 import HomeFooter from '../components/HomeFooter.vue'
 import router from '@/router';
 
@@ -26,6 +26,7 @@ export default {
   components: {
     HomeHeader,
     HomeFooter,
+    StarBackground
     // ArticleList
   },
   data() {

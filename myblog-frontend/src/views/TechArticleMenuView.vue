@@ -109,41 +109,63 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  /* 项目向起始位置对齐 */
   margin: -10px;
-  /* 调整负外边距以抵消列之间的间隔 */
 }
 
 .article-column {
-  width: calc(25% - 20px);
-  /* 每行四列，宽度设置为四分之一减去间隔 */
+  width: calc(25% - 20px); /* 每个元素占25%减去20px的间隙 */
   margin: 10px;
-  /* 间隔 */
+  /* 由于我们希望在每个元素的左右两侧都有10px的间隙，
+     我们将margin设置为10px，这样在水平方向上会有20px的间隙 */
   border: 1px solid #ddd;
   border-radius: 4px;
   overflow: hidden;
   cursor: pointer;
   padding: 10px;
   box-sizing: border-box;
+  background-color: #fff;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  min-height: 300px; /* 根据需要调整固定最小高度 */
+}
+
+.article-column:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.article-title-img {
+  width: 300px;
+  /* 固定宽度 */
+  height: 200px;
+  /* 固定高度 */
+  margin-bottom: 10px;
+}
+
+.article-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* 垂直居中对齐 */
+  align-items: flex-start;
+  /* 水平开始对齐 */
 }
 
 /* 其他样式保持不变 */
-
-.article-title-img {
-  width: 100%;
-  height: auto;
-  margin-bottom: 10px;
-}
 
 .create-article-button {
   margin: 20px 0;
   float: right;
 }
 
-/* .fixed-footer {
-  padding: 20px 0;
-  text-align: center;
-} */
+.hover-effect {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.hover-effect:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
 
 /* 其他样式 */
 </style>
+

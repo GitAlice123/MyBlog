@@ -109,30 +109,39 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    /* 项目向起始位置对齐 */
     margin: -10px;
-    /* 调整负外边距以抵消列之间的间隔 */
 }
 
 .diary-column {
-    width: calc(25% - 20px);
-    /* 每行四列，宽度设置为四分之一减去间隔 */
+    width: calc(25% - 20px); /* 每个元素占25%减去20px的间隙 */
     margin: 10px;
-    /* 间隔 */
     border: 1px solid #ddd;
     border-radius: 4px;
     overflow: hidden;
     cursor: pointer;
     padding: 10px;
     box-sizing: border-box;
+    background-color: #fff;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    min-height: 300px; /* 根据需要调整固定最小高度 */
 }
 
-/* 其他样式保持不变 */
+.diary-column:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
 
 .diary-title-img {
-    width: 100%;
-    height: auto;
+    width: 300px; /* 固定宽度 */
+    height: 200px; /* 固定高度 */
     margin-bottom: 10px;
+}
+
+.diary-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .create-diary-button {
@@ -140,10 +149,5 @@ export default {
     float: right;
 }
 
-/* .fixed-footer {
-    padding: 20px 0;
-    text-align: center;
-  } */
-
-/* 其他样式 */
+/* 其他样式保持不变 */
 </style>
