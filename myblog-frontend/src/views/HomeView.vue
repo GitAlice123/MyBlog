@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img class="background-image" src="../assets/bg.jpg" alt="Background">
+    <img class="background-image" src="../assets/forest.jpg" alt="Background">
     <el-container>
       <el-header>
         <HomeHeader />
