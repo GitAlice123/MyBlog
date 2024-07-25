@@ -6,7 +6,7 @@
         <HomeHeader />
       </el-header>
       <el-main>
-        <StarBackground />
+        <!-- <StarBackground /> -->
       </el-main>
       <el-footer class="fixed-footer">
         <HomeFooter />
@@ -18,7 +18,7 @@
 
 <script>
 import HomeHeader from '../components/HomeHeader.vue'
-import StarBackground from '@/components/StarBackground.vue'; 
+// import StarBackground from '@/components/StarBackground.vue'; 
 import HomeFooter from '../components/HomeFooter.vue'
 import router from '@/router';
 
@@ -26,7 +26,7 @@ export default {
   components: {
     HomeHeader,
     HomeFooter,
-    StarBackground
+    // StarBackground
     // ArticleList
   },
   data() {

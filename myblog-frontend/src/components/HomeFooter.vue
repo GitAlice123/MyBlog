@@ -39,6 +39,7 @@ footer {
   color: white;
   /* 字体 */
   font-family: 'AaDongQiChangYueYangLouJi';
+  font-size: 30px;
 }
 
 .left,
