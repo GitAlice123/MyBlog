@@ -1,15 +1,18 @@
 package ycblogbackend.controller;
 
-import io.minio.BucketExistsArgs;
-import io.minio.MakeBucketArgs;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
-import io.minio.errors.MinioException;
+import com.aliyun.oss.ClientException;
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.OSSException;
+import com.aliyun.oss.common.auth.CredentialsProviderFactory;
+import com.aliyun.oss.common.auth.EnvironmentVariableCredentialsProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ycblogbackend.pojo.Result;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -19,35 +22,19 @@ import java.util.UUID;
 @RequestMapping("/api")
 public class ImageController {
 
-    private String minioUrl = "http://127.0.0.1:9000"; // Minio服务地址
-    private String bucketName = "img"; // 存储桶名称
+    // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
+    String endpoint = "https://oss-cn-beijing.aliyuncs.com";
+    // 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
+    EnvironmentVariableCredentialsProvider credentialsProvider = CredentialsProviderFactory.newEnvironmentVariableCredentialsProvider();
+    // 填写Bucket名称，例如examplebucket。
+    String bucketName = "img-alice";
+    // 填写Object完整路径，例如exampledir/exampleobject.txt。Object完整路径中不能包含Bucket名称。
+    String objectName;
+    OSS ossClient;
 
-    private MinioClient minioClient;
-
-    public ImageController() {
-        try {
-            // 初始化Minio客户端
-//            minioClient = new MinioClient(minioUrl, "minioadmin", "minioadmin");
-//            后面访问图片的时候不是下载链接，而是直接打开图片，所以需要设置桶的策略为公共读
-            minioClient = MinioClient.builder()
-                    .endpoint(minioUrl)
-                    .credentials("minioadmin", "minioadmin")
-                    .build();
-
-            // 检查存储桶是否存在，如果不存在则创建
-            boolean isExists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
-            if (!isExists) {
-                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
-            }
-        } catch (MinioException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        } catch (InvalidKeyException e) {
-            throw new RuntimeException(e);
-        }
+    public ImageController() throws com.aliyuncs.exceptions.ClientException {
+        // 创建OSSClient实例。
+        ossClient = new OSSClientBuilder().build(endpoint, credentialsProvider);
     }
 
     @CrossOrigin(origins = "*")
@@ -56,29 +43,31 @@ public class ImageController {
         try {
             // 生成唯一的文件名
             String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-            // 将文件转换为字节序列
-            byte[] bytes = file.getBytes();
-
-            // 将文件上传到Minio
-            minioClient.putObject(
-                    PutObjectArgs.builder()
-                            .bucket(bucketName)
-                            .object(fileName)
-                            .stream(file.getInputStream(), file.getSize(), -1)
-                            .contentType(file.getContentType())
-                            .build()
-            );
-
-            // 返回图片的URL
-            String objectUrl = minioUrl + "/" + bucketName + "/" + fileName;
-            return ResponseEntity.ok(new Result(1, "上传成功", objectUrl));
-        } catch (IOException | MinioException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Result(0, "上传失败", null));
-        } catch (NoSuchAlgorithmException e) {
+            objectName = "images/" + fileName;
+            // 上传文件
+            ossClient.putObject(bucketName, objectName, new ByteArrayInputStream(file.getBytes()));
+            String url = "https://img-alice.oss-cn-beijing.aliyuncs.com/" + objectName;
+            return new ResponseEntity<>(new Result(1, "上传成功", url), HttpStatus.OK);
+        } catch (IOException e) {
             throw new RuntimeException(e);
-        } catch (InvalidKeyException e) {
-            throw new RuntimeException(e);
+        } catch (OSSException oe) {
+            System.out.println("Caught an OSSException, which means your request made it to OSS, "
+                    + "but was rejected with an error response for some reason.");
+            System.out.println("Error Message:" + oe.getErrorMessage());
+            System.out.println("Error Code:" + oe.getErrorCode());
+            System.out.println("Request ID:" + oe.getRequestId());
+            System.out.println("Host ID:" + oe.getHostId());
+            return new ResponseEntity<>(new Result(0, "上传失败", null), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (ClientException ce) {
+            System.out.println("Caught an ClientException, which means the client encountered "
+                    + "a serious internal problem while trying to communicate with OSS, "
+                    + "such as not being able to access the network.");
+            System.out.println("Error Message:" + ce.getMessage());
+            return new ResponseEntity<>(new Result(0, "上传失败", null), HttpStatus.INTERNAL_SERVER_ERROR);
+        } finally {
+            if (ossClient != null) {
+//                ossClient.shutdown();
+            }
         }
     }
 }
