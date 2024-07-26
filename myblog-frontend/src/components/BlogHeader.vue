@@ -72,6 +72,7 @@ header {
   /* 字体：src/assets/AaDongQiChangYueYangLouJi-2.ttf */
   font-family: 'AaDongQiChangYueYangLouJi', sans-serif;
   font-size: 30px;
+  height:50px;
 }
 .left {
   cursor: pointer; /* 显示鼠标悬停时的手势 */
@@ -80,7 +81,7 @@ header {
 }
 .left h1 {
   margin: 0;
-  color: white; /* 文字颜色 */
+  color: black; /* 文字颜色 */
   text-decoration: none; /* 移除下划线 */
 }
 .middle {
@@ -89,7 +90,7 @@ header {
 }
 /* 问候语设置成白色 */
 .middle span {
-  color: white;
+  color: black;
 }
 .right {
   display: flex;
@@ -97,10 +98,10 @@ header {
 }
 .right a {
   margin-left: 10px; /* 增加链接之间的间距 */
-  color: white;
+  color: black;
   text-decoration: none;
 }
 .right span {
-  color: white; /* 将问候语的颜色设置为白色 */
+  color: black; /* 将问候语的颜色设置为白色 */
 }
 </style>

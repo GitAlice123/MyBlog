@@ -3,7 +3,7 @@
     <img class="background-image" src="../assets/forest.jpg" alt="Background">
     <el-container>
       <el-header>
-        <BlogHeader />
+        <HomeHeader />
       </el-header>
 
       <el-main class="article-list">
@@ -22,15 +22,15 @@
       </el-main>
 
       <el-footer class="fixed-footer">
-        <BlogFooter />
+        <HomeFooter />
       </el-footer>
     </el-container>
   </div>
 </template>
 
 <script>
-import BlogHeader from '../components/BlogHeader.vue';
-import BlogFooter from '../components/BlogFooter.vue';
+import HomeHeader from '../components/HomeHeader.vue';
+import HomeFooter from '../components/HomeFooter.vue';
 import axios from 'axios';
 import { mapState } from 'vuex';
 
@@ -40,8 +40,8 @@ export default {
     ...mapState(['isLoggedIn', 'articleCount'])
   },
   components: {
-    BlogHeader,
-    BlogFooter,
+    HomeHeader,
+    HomeFooter,
   },
   data() {
     return {
@@ -101,6 +101,11 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+  font-family: 'AaDongQiChangYueYangLouJi';
+  src: url('../assets/AaDongQiChangYueYangLouJi-2.ttf') format('truetype');
+}
+
 .article-menu-view {
   position: relative;
   z-index: 1;
@@ -169,6 +174,8 @@ html, body {
   /* 垂直居中对齐 */
   align-items: flex-start;
   /* 水平开始对齐 */
+  font-family: 'AaDongQiChangYueYangLouJi', sans-serif;
+  font-size: 20px;
 }
 
 /* 其他样式保持不变 */

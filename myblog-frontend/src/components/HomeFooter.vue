@@ -1,7 +1,6 @@
 <template>
   <footer>
     <div class="left">
-      <p>每日签名：随心签</p>
     </div>
     <div class="right">
       <!-- 直接展示邮箱地址，不用超链接 -->

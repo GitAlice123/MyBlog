@@ -1,19 +1,19 @@
 <template>
   <div class="diary-view">
-    <img class="background-image" src="../assets/bg3.jpg" alt="Background">
+    <img class="background-image" src="../assets/diarybg.jpg" alt="Background">
     <el-container>
       <el-header>
         <BlogHeader />
 
       </el-header>
 
-      <el-main>
+      <el-main class="content-wrapper">
         <!-- 添加一个条件渲染的按钮，仅当用户登录时显示 -->
         <el-button v-if="isLoggedIn" type="primary" class="edit-diary-button" @click="goToEditdiary">编辑文章</el-button>
         <!-- 删除文章按钮，仅当用户登录时显示 -->
         <el-button v-if="isLoggedIn" type="danger" class="delete-diary-button" @click="deletediary">删除文章</el-button>
-        <h1 v-if="title">{{ title }}</h1>
-        <div v-if="diaryContent" v-html="compiledMarkdown"></div>
+        <h1 v-if="title" class="title-font-style">{{ title }}</h1>
+        <div v-if="diaryContent" v-html="compiledMarkdown" class="article-font-style"></div>
         <p v-else>Loading diary...</p>
 
 
@@ -68,6 +68,7 @@ export default {
   },
   mounted() {
     this.fetchdiaryContent();
+    this.setupScrollSpy();
   },
   watch: {
     // 监听路由变化，重新加载文章内容
@@ -78,6 +79,24 @@ export default {
     }
   },
   methods: {
+    setupScrollSpy() {
+      const htmlElement = document.documentElement;
+
+      let scrollTimeout; // 用于保存setTimeout的返回值
+
+      const handleScroll = () => {
+        // 清除之前的定时器
+        clearTimeout(scrollTimeout);
+        // 立即显示header和footer
+        htmlElement.classList.add('is-scrolling');
+        // 设置新的定时器，3秒后隐藏header和footer
+        scrollTimeout = setTimeout(() => {
+          htmlElement.classList.remove('is-scrolling');
+        }, 3000);
+      };
+
+      window.addEventListener('scroll', handleScroll, false);
+    },
     fetchdiaryContent() {
       axios.get(`http://localhost:8080/diary/getdiaryContent?iddiary=${this.diaryId}`)
         .then(response => {
@@ -137,6 +156,55 @@ export default {
 </script>
 
 <style scoped>
+.el-header,
+.el-footer {
+  transition: visibility 0.5s, opacity 0.5s ease;
+  opacity: 0;
+  visibility: hidden; /* 初始设为隐藏 */
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+}
+
+.el-header {
+  top: 0; /* 初始时在视口顶部 */
+  padding-top: 100px; /* 预留空间，避免覆盖内容 */
+}
+
+.el-footer {
+  bottom: 0; /* 初始时在视口底部 */
+  padding-bottom: 100px; /* 预留空间，避免覆盖内容 */
+}
+
+/* 滚动时显示Header和Footer */
+.is-scrolling .el-header,
+.is-scrolling .el-footer {
+  opacity: 1;
+  visibility: visible; /* 滚动时设置为可见 */
+}
+/* 添加一个新类用于包裹主要内容 */
+.content-wrapper {
+  padding: 100px; /* 根据需要调整内边距 */
+  max-width: 600x; /* 设置最大宽度，防止内容过宽 */
+  box-sizing: border-box; /* 边框计算在宽度内 */
+}
+
+@font-face {
+  font-family: 'AaDongQiChangYueYangLouJi';
+  src: url('../assets/AaDongQiChangYueYangLouJi-2.ttf') format('truetype');
+}
+
+.title-font-style{
+  font-family: 'AaDongQiChangYueYangLouJi';
+  font-size: 40px;
+}
+
+.article-font-style {
+  font-family: 'AaDongQiChangYueYangLouJi';
+  /* 所有字体都放大 */
+  font-size: 25px;
+}
+
 /* 添加一些样式来定位编辑按钮 */
 .edit-diary-button {
   float: right;
@@ -156,8 +224,11 @@ export default {
 
 html,
 body {
-  margin: 0;
-  padding: 0;
+  /* margin: 0;
+  padding: 0; */
+  /* 左右两侧各填充一点，不要文字都顶在边上 */
+  margin: 10px;
+  padding: 10px;
 }
 
 .background-image {
