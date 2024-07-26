@@ -6,7 +6,7 @@
         <HomeHeader />
       </el-header>
       <el-main>
-        <!-- <StarBackground /> -->
+        <el-button type="primary" @click="testFun">测试</el-button>
       </el-main>
       <el-footer class="fixed-footer">
         <HomeFooter />
@@ -26,8 +26,6 @@ export default {
   components: {
     HomeHeader,
     HomeFooter,
-    // StarBackground
-    // ArticleList
   },
   data() {
     return {

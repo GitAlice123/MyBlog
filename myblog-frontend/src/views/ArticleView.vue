@@ -8,11 +8,11 @@
 
       <el-main>
         <!-- 条件渲染的编辑和删除按钮 -->
-        <el-button v-if="isLoggedIn" type="primary" class="edit-article-button" @click="goToEditArticle">编辑文章</el-button>
+        <el-button v-if="isLoggedIn" type="primary" class="edit-article-button"
+          @click="goToEditArticle">编辑文章</el-button>
         <el-button v-if="isLoggedIn" type="danger" class="delete-article-button" @click="deleteArticle">删除文章</el-button>
         <h1 v-if="title">{{ title }}</h1>
-        <!-- 使用v-html渲染编译后的Markdown内容 -->
-        <div v-if="articleContent" v-html="compiledMarkdown"></div>
+        <div v-if="compiledMarkdown" v-html="compiledMarkdown" dangerouslySetInnerHTML={{__html:html}}></div>
         <p v-else>Loading article...</p>
       </el-main>
 
@@ -28,9 +28,10 @@ import axios from 'axios';
 import BlogHeader from '../components/BlogHeader.vue';
 import BlogFooter from '../components/BlogFooter.vue';
 import { mapState } from 'vuex';
-import { marked } from 'marked';
-import 'highlight.js/styles/github.css'; // 引入highlight.js的样式
+import { Marked } from 'marked';
 import hljs from 'highlight.js';
+import 'highlight.js/styles/github.css';
+import { markedHighlight } from "marked-highlight";
 
 export default {
   name: 'ArticleView',
@@ -42,18 +43,11 @@ export default {
     return {
       articleId: this.$route.params.idarticle,
       title: '',
-      articleContent: ''
+      articleContent: '',
+      compiledMarkdown: ''
     };
   },
   computed: {
-    compiledMarkdown() {
-      return marked(this.articleContent, {
-        highlight: (code, lang) => {
-          // 如果有语言标识，则尝试高亮，否则使用plaintext
-          return lang ? hljs.highlight(code, { language: lang }).value : code;
-        }
-      });
-    },
     ...mapState(['isLoggedIn'])
   },
   mounted() {
@@ -67,7 +61,8 @@ export default {
             const articleData = response.data.data;
             if (articleData) {
               this.title = articleData.title;
-              this.articleContent = articleData.articleContent.replace(/\\n/g, '\n');
+              this.articleContent = articleData.articleContent;
+              this.compiledMarkdown = this.compileMarkdown(this.articleContent);
             }
           } else {
             console.error('Failed to fetch article content, code is not 1:', response);
@@ -76,6 +71,38 @@ export default {
         .catch(error => {
           console.error('Error fetching article content:', error);
         });
+    },
+    compileMarkdown(content) {
+      // let renderer = new marked.Renderer();
+
+      // console.log('content:', content);
+      // console.log(hljs.highlightAuto(content).value);
+      // marked.setOptions({
+      //   renderer: renderer,
+      //   highlight: function(code) {
+      //     return hljs.highlightAuto(code).value;
+      //   },
+      //   pedantic: false,
+      //   gfm: true,
+      //   tables: true,
+      //   breaks: false,
+      //   sanitize: true,// 不忽略html标签
+      //   smartLists: true,
+      //   smartypants: false,
+      //   xhtml: false
+      // });
+
+      // return marked(content);
+      const marked = new Marked(
+        markedHighlight({
+          langPrefix: 'hljs language-',
+          highlight(code, lang) {
+            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+            return hljs.highlight(code, { language }).value;
+          }
+        })
+      );
+      return marked.parse(content);
     },
     goToEditArticle() {
       if (this.isLoggedIn) {
@@ -107,7 +134,7 @@ export default {
         this.$message.error('请先登录');
       }
     }
-  }
+  },
 };
 </script>
 
@@ -169,5 +196,11 @@ html,
 body {
   margin: 0;
   padding: 0;
+}
+
+pre code {
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  padding: 10px;
 }
 </style>
