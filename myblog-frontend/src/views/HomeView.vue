@@ -6,7 +6,7 @@
         <HomeHeader />
       </el-header>
       <el-main>
-        <el-button type="primary" @click="testFun">测试</el-button>
+        <!-- <el-button type="primary" @click="testFun">测试</el-button> -->
       </el-main>
       <el-footer class="fixed-footer">
         <HomeFooter />

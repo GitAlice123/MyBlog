@@ -1,15 +1,14 @@
 <template>
   <footer>
-    <div class="left">
-      <p>每日签名：随心签</p>
-    </div>
+    <!-- <div class="left">
+    </div> -->
     <div class="right">
       <!-- 直接展示邮箱地址，不用超链接 -->
       <span>
         2822983966@qq.com
       </span>
       <a href="https://github.com/GitAlice123" target="_blank" rel="noopener noreferrer">
-        <img class="github-icon" src="../assets/github.jpg" alt="GitHub">
+        <img class="github-icon" src="../assets/github_PNG40.png" alt="GitHub">
       </a>
 
 
@@ -41,10 +40,11 @@ footer {
   right: 0;
   z-index: 1000;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-  color: white;
+  color: black;
   /* 字体 */
   font-family: 'AaDongQiChangYueYangLouJi';
   font-size: 30px;
+  height: 50px;
 }
 
 .left,
@@ -55,7 +55,7 @@ footer {
 
 .right a {
   margin-left: 10px;
-  color: white;
+  color: black;
   text-decoration: none;
 }
 
