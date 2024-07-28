@@ -5,5 +5,7 @@ module.exports = defineConfig({
   devServer: {
     port: 7001,
   },
-
+  assetsDir: 'static',
+  parallel: false,
+  publicPath: '/',
 })

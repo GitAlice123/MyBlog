@@ -126,7 +126,7 @@ export default {
       window.addEventListener('scroll', handleScroll, false);
     },
     fetchArticleContent() {
-      axios.get(`http://localhost:8080/getArticleContent?idarticle=${this.articleId}`)
+      axios.get(`http://myalpine:8080/getArticleContent?idarticle=${this.articleId}`)
         .then(response => {
           if (response.data && response.data.code === 1) {
             const articleData = response.data.data;
@@ -193,7 +193,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          axios.get(`http://localhost:8080/deleteArticle?idarticle=${this.articleId}`)
+          axios.get(`http://myalpine:8080/deleteArticle?idarticle=${this.articleId}`)
             .then(() => {
               this.$message.success('文章删除成功');
               this.$router.push('/techArticleMenu');

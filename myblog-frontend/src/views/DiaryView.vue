@@ -98,7 +98,7 @@ export default {
       window.addEventListener('scroll', handleScroll, false);
     },
     fetchdiaryContent() {
-      axios.get(`http://localhost:8080/diary/getdiaryContent?iddiary=${this.diaryId}`)
+      axios.get(`http://myalpine:8080/diary/getdiaryContent?iddiary=${this.diaryId}`)
         .then(response => {
           if (response.data && response.data.code === 1) {
             const diaryData = response.data.data;
@@ -134,7 +134,7 @@ export default {
           type: 'warning'
         }).then(() => {
           // 发送请求到后端删除文章
-          axios.get(`http://localhost:8080/diary/deletediary?iddiary=${this.diaryId}`)
+          axios.get(`http://myalpine:8080/diary/deletediary?iddiary=${this.diaryId}`)
             .then(() => {
               // 删除成功后，返回目录页面
               this.$message.success('文章删除成功');
