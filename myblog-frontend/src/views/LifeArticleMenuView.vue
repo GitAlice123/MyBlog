@@ -54,7 +54,7 @@ export default {
     },
     methods: {
         fetchdiarys() {
-            axios.get('http://localhost:8080/diary/list')
+            axios.get('http://myalpine:8080/diary/list')
                 .then(response => {
                     this.diarys = response.data.data;
                     this.$store.commit('setdiaryCount', this.diarys.length); // 更新 Vuex store 中的文章总数
@@ -66,7 +66,7 @@ export default {
         },
         fetchTitleImages() {
             this.diarys.forEach(diary => {
-                axios.get(`http://localhost:8080/diary/getTitleImg?iddiary=${diary.iddiary}`)
+                axios.get(`http://myalpine:8080/diary/getTitleImg?iddiary=${diary.iddiary}`)
                     .then(response => {
                         if (response.data && response.data.code === 1) {
                             this.titleImgs[diary.iddiary] = response.data.data;

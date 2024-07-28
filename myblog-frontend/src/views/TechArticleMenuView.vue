@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     fetchArticles() {
-      axios.get('http://localhost:8080/list')
+      axios.get('http://myalpine:8080/list')
         .then(response => {
           this.articles = response.data.data;
           this.$store.commit('setArticleCount', this.articles.length); // 更新 Vuex store 中的文章总数
@@ -66,7 +66,7 @@ export default {
     },
     fetchTitleImages() {
       this.articles.forEach(article => {
-        axios.get(`http://localhost:8080/getTitleImg?idarticle=${article.idarticle}`)
+        axios.get(`http://myalpine:8080/getTitleImg?idarticle=${article.idarticle}`)
           .then(response => {
             if (response.data && response.data.code === 1) {
               this.titleImgs[article.idarticle] = response.data.data;

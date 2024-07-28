@@ -18,7 +18,7 @@
                 </el-form-item>
                 <!-- 标题图片展示及修改 -->
                 <el-form-item label="标题图片">
-                    <el-upload class="avatar-uploader" action="http://localhost:8080/api/upload-image"
+                    <el-upload class="avatar-uploader" action="http://myalpine:8080/api/upload-image"
                         :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                         <template #trigger>
                             <div class="avatar-uploader-trigger">
@@ -74,7 +74,7 @@ export default {
     methods: {
         submitdiary() {
             this.diary.title_img_path = this.diary.title_img_path.trim();
-            axios.post('http://localhost:8080/diary/adddiary', this.diary, {
+            axios.post('http://myalpine:8080/diary/adddiary', this.diary, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -92,7 +92,7 @@ export default {
                 });
         },
         fetchdiaryContent() {
-            axios.get(`http://localhost:8080/diary/getdiaryContent?iddiary=${this.diary.iddiary}`)
+            axios.get(`http://myalpine:8080/diary/getdiaryContent?iddiary=${this.diary.iddiary}`)
                 .then(response => {
                     if (response.data.code === 1) {
                         const diaryData = response.data.data;
@@ -200,7 +200,7 @@ export default {
             formData.append('file', file);
 
             // 发送文件到后端
-            axios.post('http://localhost:8080/api/upload-image', formData, config)
+            axios.post('http://myalpine:8080/api/upload-image', formData, config)
                 .then(response => {
                     if (response.data.code === 1) {
                         // 上传成功
