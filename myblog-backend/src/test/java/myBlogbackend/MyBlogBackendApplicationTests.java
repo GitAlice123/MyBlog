@@ -1,4 +1,4 @@
-package ycblogbackend;
+package myBlogbackend;
 
 
 import com.aliyun.oss.ClientException;
