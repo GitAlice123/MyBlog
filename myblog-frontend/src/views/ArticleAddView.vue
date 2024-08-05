@@ -9,17 +9,17 @@
         <el-form-item label="文章标题">
           <!-- <el-input v-model="article.title" placeholder="请输入文章标题"></el-input> -->
           <!-- 当粘贴事件发生的时候，控制台打印一句提示 -->
-          <el-input v-model="article.title" placeholder="请输入文章标题" @paste="handleSig" />
+          <el-input v-model="article.title" placeholder="请输入文章标题" />
         </el-form-item>
         <!-- 文章内容 -->
-        <el-form-item label="文章内容" @paste="handlePaste">
+        <el-form-item label="文章内容">
           <!-- <v-md-editor v-model="article.articleContent" height="500px" /> -->
           <v-md-editor v-model="article.articleContent" left-toolbar="undo redo | image" :disabled-menus="[]"
             @upload-image="handleUploadImage" height="500px" />
         </el-form-item>
         <!-- 标题图片上传 -->
         <el-form-item label="上传标题图片">
-          <el-upload class="avatar-uploader" action="uploadAction" :show-file-list="false"
+          <el-upload class="avatar-uploader" action="http://47.94.212.255:7023/api/upload-image" :show-file-list="false"
             :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
             <template #trigger>
               <div class="avatar-uploader-trigger">
@@ -51,10 +51,7 @@ import { mapState, mapMutations } from 'vuex';
 
 export default {
   computed: {
-    ...mapState(['isLoggedIn', 'articleCount']),
-    uploadAction() {
-      return this.$http.defaults.baseURL + '/upload-image'; // 基于全局基础URL
-    }
+    ...mapState(['isLoggedIn', 'articleCount'])
   },
   components: {
     BlogHeader,
@@ -63,6 +60,7 @@ export default {
   },
   data() {
     return {
+      uploadURL:'',
       article: {
         idarticle: null,
         title: '',
@@ -75,6 +73,10 @@ export default {
     };
   },
   methods: {
+    // uploadAction() {
+    //   console.log('uploadAction:', this.$http.defaults.baseURL + '/upload-image');
+    //   return this.$http.defaults.baseURL + '/upload-image'; // 基于全局基础URL
+    // },
     ...mapMutations(['updateArticleCount']),
     submitArticle() {
       this.article.title_img_path = this.article.title_img_path.trim();

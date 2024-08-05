@@ -17,6 +17,8 @@ import 'highlight.js/styles/stackoverflow-light.css'
 import hljs from "highlight.js/lib/core";
 import hljsVuePlugin from "@highlightjs/vue-plugin";
 import axios from 'axios';
+import ElementPlus from 'element-plus'
+
 
 axios.defaults.baseURL = 'http://serverIP:port/api';
 
@@ -35,6 +37,7 @@ app.config.globalProperties.$http = axios;
 app.use(VMdPreview);
 app.use(VueMarkdownEditor);
 app.use(hljsVuePlugin)
+app.use(ElementPlus)
 
 // app.use(ElementPlus)
 app.use(router)

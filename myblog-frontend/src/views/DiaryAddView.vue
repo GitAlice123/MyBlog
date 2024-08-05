@@ -19,7 +19,7 @@
           </el-form-item>
           <!-- 标题图片上传 -->
           <el-form-item label="上传标题图片">
-            <el-upload class="avatar-uploader" action="uploadAction" :show-file-list="false"
+            <el-upload class="avatar-uploader" action="http://47.94.212.255:7023/api/upload-image" :show-file-list="false"
               :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
               <template #trigger>
                 <div class="avatar-uploader-trigger">
@@ -52,9 +52,9 @@
   export default {
     computed: {
       ...mapState(['isLoggedIn', 'diaryCount']),
-      uploadAction() {
-        return this.$http.defaults.baseURL + '/upload-image'; // 基于全局基础URL
-      }
+      // uploadAction() {
+      //   return this.$http.defaults.baseURL + '/upload-image'; // 基于全局基础URL
+      // }
     },
     components: {
       BlogHeader,

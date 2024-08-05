@@ -18,7 +18,7 @@
                 </el-form-item>
                 <!-- 标题图片展示及修改 -->
                 <el-form-item label="标题图片">
-                    <el-upload class="avatar-uploader" action="uploadAction"
+                    <el-upload class="avatar-uploader" action="http://47.94.212.255:7023/api/upload-image"
                         :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                         <template #trigger>
                             <div class="avatar-uploader-trigger">
@@ -51,9 +51,9 @@ import { mapState } from 'vuex';
 export default {
     computed: {
         ...mapState(['isLoggedIn']),
-        uploadAction(){
-            return this.$http.defaults.baseURL+'/upload-image'; // 基于全局基础URL
-        }
+        // uploadAction(){
+        //     return this.$http.defaults.baseURL+'/upload-image'; // 基于全局基础URL
+        // }
     },
     components: {
         BlogHeader,
