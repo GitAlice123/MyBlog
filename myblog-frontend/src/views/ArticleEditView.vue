@@ -18,7 +18,7 @@
                 </el-form-item>
                 <!-- 标题图片展示及修改 -->
                 <el-form-item label="标题图片">
-                    <el-upload class="avatar-uploader" action="http://myalpine:8080/api/upload-image"
+                    <el-upload class="avatar-uploader" action="uploadAction"
                         :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                         <template #trigger>
                             <div class="avatar-uploader-trigger">
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 import BlogHeader from '../components/BlogHeader.vue';
 import BlogFooter from '../components/BlogFooter.vue';
 import VMdEditor from '@kangc/v-md-editor';
@@ -51,6 +51,9 @@ import { mapState } from 'vuex';
 export default {
     computed: {
         ...mapState(['isLoggedIn']),
+        uploadAction(){
+            return this.$http.defaults.baseURL+'/upload-image'; // 基于全局基础URL
+        }
     },
     components: {
         BlogHeader,
@@ -74,11 +77,12 @@ export default {
     methods: {
         submitArticle() {
             this.article.title_img_path = this.article.title_img_path.trim();
-            axios.post('http://myalpine:8080/addArticle', this.article, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
+            // axios.post('http://localhost:8080/api/article/addArticle', this.article, {
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            // })
+            this.$http.post('/article/addArticle', this.article)
                 .then(response => {
                     console.log('Article added successfully:', response);
                     this.$message({
@@ -92,7 +96,8 @@ export default {
                 });
         },
         fetchArticleContent() {
-            axios.get(`http://myalpine:8080/getArticleContent?idarticle=${this.article.idarticle}`)
+            // axios.get(`http://localhost:8080/api/article/getArticleContent?idarticle=${this.article.idarticle}`)
+            this.$http.get(`/article/getArticleContent?idarticle=${this.article.idarticle}`)
                 .then(response => {
                     if (response.data.code === 1) {
                         const articleData = response.data.data;
@@ -200,7 +205,8 @@ export default {
             formData.append('file', file);
 
             // 发送文件到后端
-            axios.post('http://myalpine:8080/api/upload-image', formData, config)
+            // axios.post('http://localhost:8080/api/upload-image', formData, config)
+            this.$http.post('/upload-image', formData, config)
                 .then(response => {
                     if (response.data.code === 1) {
                         // 上传成功

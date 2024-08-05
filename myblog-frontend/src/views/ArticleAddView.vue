@@ -19,7 +19,7 @@
         </el-form-item>
         <!-- 标题图片上传 -->
         <el-form-item label="上传标题图片">
-          <el-upload class="avatar-uploader" action="http://myalpine:8080/api/upload-image" :show-file-list="false"
+          <el-upload class="avatar-uploader" action="uploadAction" :show-file-list="false"
             :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
             <template #trigger>
               <div class="avatar-uploader-trigger">
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 import BlogHeader from '../components/BlogHeader.vue';
 import BlogFooter from '../components/BlogFooter.vue';
 import VMdEditor from '@kangc/v-md-editor';
@@ -52,6 +52,9 @@ import { mapState, mapMutations } from 'vuex';
 export default {
   computed: {
     ...mapState(['isLoggedIn', 'articleCount']),
+    uploadAction() {
+      return this.$http.defaults.baseURL + '/upload-image'; // 基于全局基础URL
+    }
   },
   components: {
     BlogHeader,
@@ -76,11 +79,13 @@ export default {
     submitArticle() {
       this.article.title_img_path = this.article.title_img_path.trim();
       // this.article.articleContent = this.articleContent.trim();
-      axios.post('http://myalpine:8080/addArticle', this.article, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      // axios.post('http://localhost:8080/api/article/addArticle', this.article, {
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      // })
+      // this.$http.get(`/article/deleteArticle?idarticle=${this.articleId}`)
+      this.$http.post('/article/addArticle', this.article)
         .then(response => {
           console.log('Article added successfully:', response);
           this.$message({
@@ -122,7 +127,7 @@ export default {
     },
     handleSuccess(response) {
       console.log(response);
-      // {code: 1, msg: 'success', data: 'http://myalpine:8080/images/1721719530765_Screenshot 2024-02-23 194203.png'}
+      // {code: 1, msg: 'success', data: 'http://localhost:8080/images/1721719530765_Screenshot 2024-02-23 194203.png'}
       if (response.code === 1) {
         this.fileList.push(response.data);
         this.$message.success('文章内图片上传成功');
@@ -179,7 +184,8 @@ export default {
       formData.append('file', file);
 
       // 发送文件到后端
-      axios.post('http://myalpine:8080/api/upload-image', formData, config)
+      // axios.post('http://localhost:8080/api/upload-image', formData, config)
+      this.$http.post('/upload-image', formData, config)
         .then(response => {
           if (response.data.code === 1) {
             // 上传成功

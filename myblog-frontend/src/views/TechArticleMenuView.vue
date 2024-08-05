@@ -31,10 +31,11 @@
 <script>
 import HomeHeader from '../components/HomeHeader.vue';
 import HomeFooter from '../components/HomeFooter.vue';
-import axios from 'axios';
+// import axios from 'axios';
 import { mapState } from 'vuex';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   name: 'TechArticleMenuView',
   computed: {
     ...mapState(['isLoggedIn', 'articleCount'])
@@ -54,7 +55,8 @@ export default {
   },
   methods: {
     fetchArticles() {
-      axios.get('http://myalpine:8080/list')
+      // axios.get('http://localhost:8080/api/article/list')
+      this.$http.get('/article/list')
         .then(response => {
           this.articles = response.data.data;
           this.$store.commit('setArticleCount', this.articles.length); // 更新 Vuex store 中的文章总数
@@ -66,7 +68,8 @@ export default {
     },
     fetchTitleImages() {
       this.articles.forEach(article => {
-        axios.get(`http://myalpine:8080/getTitleImg?idarticle=${article.idarticle}`)
+        // axios.get(`http://localhost:8080/api/article/getTitleImg?idarticle=${article.idarticle}`)
+        this.$http.get(`/article/getTitleImg?idarticle=${article.idarticle}`)
           .then(response => {
             if (response.data && response.data.code === 1) {
               this.titleImgs[article.idarticle] = response.data.data;
@@ -97,7 +100,7 @@ export default {
       this.$router.push('/ArticleAdd');
     }
   }
-};
+});
 </script>
 
 <style scoped>

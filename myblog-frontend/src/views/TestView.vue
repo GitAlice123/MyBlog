@@ -20,8 +20,9 @@
 <script>
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
     name: 'CodeView',
     data() {
         return {
@@ -49,7 +50,7 @@ export default {
             });
         });
     }
-};
+});
 </script>
 
 <style scoped>

@@ -31,10 +31,11 @@
 <script>
 import HomeHeader from '../components/HomeHeader.vue';
 import HomeFooter from '../components/HomeFooter.vue';
-import axios from 'axios';
+// import axios from 'axios';
 import { mapState } from 'vuex';
+import { defineComponent } from 'vue'
 
-export default {
+export default  defineComponent({
     name: 'TechdiaryMenuView',
     computed: {
         ...mapState(['isLoggedIn', 'diaryCount'])
@@ -54,7 +55,8 @@ export default {
     },
     methods: {
         fetchdiarys() {
-            axios.get('http://myalpine:8080/diary/list')
+            // axios.get('http://localhost:8080/api/diary/list')
+            this.$http.get('/diary/list')
                 .then(response => {
                     this.diarys = response.data.data;
                     this.$store.commit('setdiaryCount', this.diarys.length); // 更新 Vuex store 中的文章总数
@@ -66,7 +68,8 @@ export default {
         },
         fetchTitleImages() {
             this.diarys.forEach(diary => {
-                axios.get(`http://myalpine:8080/diary/getTitleImg?iddiary=${diary.iddiary}`)
+                // axios.get(`http://localhost:8080/api/diary/getTitleImg?iddiary=${diary.iddiary}`)
+                this.$http.get(`/diary/getTitleImg?iddiary=${diary.iddiary}`)
                     .then(response => {
                         if (response.data && response.data.code === 1) {
                             this.titleImgs[diary.iddiary] = response.data.data;
@@ -97,7 +100,7 @@ export default {
             this.$router.push('/diaryAdd');
         }
     }
-};
+});
 </script>
 
 <style scoped>
