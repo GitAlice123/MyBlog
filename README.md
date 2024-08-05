@@ -27,7 +27,7 @@ README仅介绍如何运行项目，具体实现细节请参考个人博客内�
     ![alt text](image-2.png)
     这里改为http://localhost:8080/api
 * 修改store/index.js中的用户名和密码为你自己的
-    * ![alt text](image-1.png)
+    ![alt text](image-1.png)
 * 运行项目
     ```shell
     npm run install
