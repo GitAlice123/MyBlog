@@ -18,8 +18,7 @@ import hljs from "highlight.js/lib/core";
 import hljsVuePlugin from "@highlightjs/vue-plugin";
 import axios from 'axios';
 
-// axios.defaults.baseURL = 'http://47.94.212.255:7023/api';
-axios.defaults.baseURL = 'http://47.94.212.255:7023/api';
+axios.defaults.baseURL = 'http://serverIP:port/api';
 
 //预览的主题
 VMdPreview.use(githubTheme, {

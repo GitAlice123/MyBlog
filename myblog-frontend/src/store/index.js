@@ -17,7 +17,7 @@ export default createStore({
   actions: {
     // 处理登录状态的更改
     login({ commit }, credentials) {
-      if (credentials.username === 'Alice' && credentials.password === 'yc030316') {
+      if (credentials.username === '{Your Username}' && credentials.password === '{Your Password}') {
         commit('setLoginState', true);
         return true;
       }
