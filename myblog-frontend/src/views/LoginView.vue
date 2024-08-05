@@ -25,8 +25,9 @@
 <script>
 import BlogHeader from '../components/BlogHeader.vue';
 import BlogFooter from '../components/BlogFooter.vue';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   components: {
     BlogHeader,
     BlogFooter,
@@ -54,5 +55,5 @@ export default {
         });
     },
   },
-};
+});
 </script>

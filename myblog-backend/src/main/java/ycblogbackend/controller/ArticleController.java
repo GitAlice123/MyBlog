@@ -11,12 +11,13 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/api")
 public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/list")
+    @GetMapping("/article/list")
     public Object list() {
         log.info("查询所有文章数据：controller");
         List<Article> articleList = articleService.list();
@@ -24,7 +25,7 @@ public class ArticleController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/getArticleContent")
+    @GetMapping("/article/getArticleContent")
     public Object getArticleContent(String idarticle) {
         log.info("按照文章id查询文章：controller");
         System.out.println("id为"+idarticle);
@@ -33,7 +34,7 @@ public class ArticleController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/getTitleImg")
+    @GetMapping("/article/getTitleImg")
     public Object getTitleImg(String idarticle) {
         log.info("通过id查询文章标题图片路径：controller");
         String titleImg = articleService.getTitleImgById(idarticle);
@@ -41,7 +42,7 @@ public class ArticleController {
     }
 
     @CrossOrigin(origins = "*")
-    @PostMapping("/addArticle") // 使用 @PostMapping 替代 @GetMapping
+    @PostMapping("/article/addArticle") // 使用 @PostMapping 替代 @GetMapping
     public Object addArticle(@RequestBody Article article) { // 添加 @RequestBody 注解
         log.info("新增文章：controller");
         System.out.println(article);
@@ -50,7 +51,7 @@ public class ArticleController {
     }
 
     @CrossOrigin(origins = "*")
-    @PostMapping("/updateArticle") // 使用 @PostMapping 替代 @GetMapping
+    @PostMapping("/article/updateArticle") // 使用 @PostMapping 替代 @GetMapping
     public Object updateArticle(@RequestBody Article article) { // 添加 @RequestBody 注解
         log.info("更新文章：controller");
         System.out.println(article);
@@ -59,7 +60,7 @@ public class ArticleController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/deleteArticle")
+    @GetMapping("/article/deleteArticle")
     public Object deleteArticle(String idarticle) {
         log.info("删除文章：controller");
         articleService.deleteArticle(idarticle);
