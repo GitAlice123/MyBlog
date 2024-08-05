@@ -1,4 +1,4 @@
-package ycblogbackend.controller;
+package myBlogbackend.controller;
 
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
@@ -10,12 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ycblogbackend.pojo.Result;
+import myBlogbackend.pojo.Result;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 @RestController

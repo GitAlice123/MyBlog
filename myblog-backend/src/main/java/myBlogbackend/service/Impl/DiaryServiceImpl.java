@@ -1,11 +1,11 @@
-package ycblogbackend.service.Impl;
+package myBlogbackend.service.Impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ycblogbackend.mapper.DiaryMapper;
-import ycblogbackend.pojo.Diary;
-import ycblogbackend.service.DiaryService;
+import myBlogbackend.mapper.DiaryMapper;
+import myBlogbackend.pojo.Diary;
+import myBlogbackend.service.DiaryService;
 
 import java.util.List;
 

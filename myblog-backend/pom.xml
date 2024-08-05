@@ -8,11 +8,11 @@
         <version>3.3.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.ycc</groupId>
-    <artifactId>YCBlog-backend</artifactId>
+    <groupId>com.myblog</groupId>
+    <artifactId>myblog-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>YCBlog-backend</name>
-    <description>YCBlog-backend</description>
+    <name>MyBlog-backend</name>
+    <description>MyBlog-backend</description>
     <url/>
     <licenses>
         <license/>

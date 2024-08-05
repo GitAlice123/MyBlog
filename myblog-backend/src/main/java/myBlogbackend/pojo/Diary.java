@@ -1,4 +1,4 @@
-package ycblogbackend.pojo;
+package myBlogbackend.pojo;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

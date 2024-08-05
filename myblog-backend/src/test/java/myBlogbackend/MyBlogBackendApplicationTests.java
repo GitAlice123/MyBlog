@@ -14,7 +14,7 @@ import java.io.ByteArrayInputStream;
 import java.util.Map;
 
 @SpringBootTest
-public class YcBlogBackendApplicationTests {
+public class MyBlogBackendApplicationTests {
     @Test
     public void main() throws Exception {
         // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。

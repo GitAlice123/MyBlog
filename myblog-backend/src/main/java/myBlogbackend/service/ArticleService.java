@@ -1,6 +1,6 @@
-package ycblogbackend.service;
+package myBlogbackend.service;
 
-import ycblogbackend.pojo.Article;
+import myBlogbackend.pojo.Article;
 
 import java.util.List;
 

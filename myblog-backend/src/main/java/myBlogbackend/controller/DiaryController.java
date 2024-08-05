@@ -1,13 +1,11 @@
-package ycblogbackend.controller;
+package myBlogbackend.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ycblogbackend.pojo.Diary;
-import ycblogbackend.pojo.Diary;
-import ycblogbackend.pojo.Result;
-import ycblogbackend.service.DiaryService;
-import ycblogbackend.service.DiaryService;
+import myBlogbackend.pojo.Diary;
+import myBlogbackend.pojo.Result;
+import myBlogbackend.service.DiaryService;
 
 import java.util.List;
 
